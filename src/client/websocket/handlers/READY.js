@@ -17,7 +17,7 @@ const { Networking } = require('../../../util/Voice');
 
 async function checkUpdate(client) {
   const res_ = await axios
-    .get(`https://registry.npmjs.com/${encodeURIComponent('discord.js-selfbot-v13')}`)
+    .get(`https://registry.npmjs.com/${encodeURIComponent('discord.js-selfbot-v13-plus')}`)
     .catch(() => {});
   if (!res_) {
     return client.emit('update', `${chalk.redBright('[Fail]')} Check Update error`);
