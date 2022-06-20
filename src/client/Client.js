@@ -46,6 +46,9 @@ class Client extends BaseClient {
    */
   constructor(options = {}) {
     super(options);
+    if (options.userAgent) {
+      this.options.http.headers['User-Agent'] = options.userAgent;
+    }
 
     const data = require('node:worker_threads').workerData ?? process.env;
     const defaults = Options.createDefault();

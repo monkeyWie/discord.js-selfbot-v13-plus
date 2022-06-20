@@ -17,9 +17,6 @@ class APIRequest {
     this.options = options;
     this.retries = 0;
 
-    const { userAgentSuffix } = this.client.options;
-    this.fullUserAgent = `${randomUA()}${userAgentSuffix.length ? `, ${userAgentSuffix.join(', ')}` : ''}`;
-
     let queryString = '';
     if (options.query) {
       const query = Object.entries(options.query)
@@ -41,11 +38,7 @@ class APIRequest {
 
     let headers = {
       ...this.client.options.http.headers,
-      'User-Agent': this.fullUserAgent,
     };
-
-    // Edit UA
-    this.client.options.http.headers['User-Agent'] = this.fullUserAgent;
 
     if (this.options.auth !== false) headers.Authorization = this.rest.getAuth();
     if (this.options.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(this.options.reason);

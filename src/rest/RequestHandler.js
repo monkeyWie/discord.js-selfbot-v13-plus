@@ -347,6 +347,32 @@ class RequestHandler {
         throw new HTTPError(err.message, err.constructor.name, err.status, request);
       }
 
+      if (res.status === 400 && data.captcha_key && request.options.data) {
+        /*
+          {
+              "captcha_key": [
+                  "captcha-required"
+              ],
+              "captcha_sitekey": "",
+              "captcha_service": "hcaptcha",
+              "captcha_rqdata": "",
+              "captcha_rqtoken": ""
+          }
+         */
+        const solved = await this.manager.client.options.solveCaptcha(
+          data,
+          request.options?.headers?.referer,
+          this.manager.client.options.http.headers['User-Agent'],
+          this.manager.client.options.http.headers.Cookie,
+        );
+
+        if (solved) {
+          request.options.data.captcha_key = solved;
+          request.options.data.captcha_rqtoken = data.captcha_rqtoken;
+          return this.execute(request);
+        }
+      }
+
       throw new DiscordAPIError(data, res.status, request);
     }
 

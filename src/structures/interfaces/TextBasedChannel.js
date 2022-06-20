@@ -175,7 +175,13 @@ class TextBasedChannel {
     }
 
     const { data, files } = await messagePayload.resolveFiles();
-    const d = await this.client.api.channels[this.id].messages.post({ data, files });
+    const d = await this.client.api.channels[this.id].messages.post({
+      data,
+      files,
+      headers: {
+        referer: `https://discord.com/channels/@me/${this.id}`,
+      },
+    });
 
     return this.messages.cache.get(d.id) ?? this.messages._add(d);
   }

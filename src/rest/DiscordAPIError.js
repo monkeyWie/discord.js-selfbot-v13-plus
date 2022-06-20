@@ -36,19 +36,6 @@ class DiscordAPIError extends Error {
     this.httpStatus = status;
 
     /**
-     * @typedef {Object} Captcha
-     * @property {Array<string>} captcha_key ['captcha-required']
-     * @property {string} captcha_sitekey Captcha code ???
-     * @property {string} captcha_service hcaptcha
-     */
-
-    /**
-     * Captcha response data if the request requires a captcha
-     * @type {Captcha | null}
-     */
-    this.captcha = error?.captcha_service ? error : null;
-
-    /**
      * The data associated with the request that caused this error
      * @type {HTTPErrorData}
      */
